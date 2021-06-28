@@ -10,4 +10,4 @@ Create a `.env` file which contains the token for a bot
 TOKEN=<token>
 ```
 
-Create a file called `doglist.txt` containing the facts. The bot will poll and update its list every 30 seconds
+Create a file called `doglist.txt` containing the facts, each on a new line. The bot will poll and update its list every 30 seconds
