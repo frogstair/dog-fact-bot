@@ -44,10 +44,23 @@ func onMsg(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if strings.Contains(m.Content, TWORD) {
+	message := strings.ToLower(m.Content)
+
+	if strings.Contains(message, TWORD) {
+		s.ChannelTyping(m.ChannelID)
+
 		i := rand.Intn(len(fact.List))
 		msg := fmt.Sprintf("Fact #%d: %s", i+1, fact.List[i])
+
 		s.ChannelMessageSend(m.ChannelID, msg)
+
 		log.Printf("Dispenced fact #%d", i+1)
+		return
+	}
+
+	if message == "how many facts?" {
+		fcount := fmt.Sprintf("I have %d facts for you", len(fact.List))
+		s.ChannelMessageSend(m.ChannelID, fcount)
+		log.Println("Asked how many facts")
 	}
 }
