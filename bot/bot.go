@@ -44,6 +44,10 @@ func onMsg(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
+	if m.Author.Bot {
+		return
+	}
+
 	message := strings.ToLower(m.Content)
 
 	if strings.Contains(message, TWORD) {
