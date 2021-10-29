@@ -4,8 +4,8 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
-	"math/rand"
 	"os"
+	"reflect"
 	"strings"
 	"time"
 )
@@ -27,10 +27,13 @@ func Update() {
 
 		lines := strings.Split(string(text), "\n")
 		lines = removeDuplicateValues(lines)
+		if reflect.DeepEqual(lines, List) {
+			time.Sleep(DELAY * time.Second)
+			continue
+		}
 
 		plen := len(List)
 		List = lines
-		shuffle(List)
 		nlen := len(List)
 
 		log.Printf("Read in %d total dog facts, %d new\n", nlen, nlen-plen)
@@ -50,9 +53,4 @@ func removeDuplicateValues(arr []string) []string {
 		}
 	}
 	return list
-}
-
-func shuffle(arr []string) []string {
-	rand.Shuffle(len(arr), func(i, j int) { arr[i], arr[j] = arr[j], arr[i] })
-	return arr
 }
