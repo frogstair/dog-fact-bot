@@ -14,7 +14,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-var TWORD = "dog"
+var TWORD = []string{"dog", "canine", "puppy", "bitch", "bark", "woof", "shiba"}
 
 func Start() {
 	dg, err := discordgo.New("Bot " + os.Getenv("TOKEN"))
@@ -82,15 +82,17 @@ func onMsg(s *discordgo.Session, m *discordgo.MessageCreate) {
 		log.Printf("Dispenced fact #%d", num+1)
 	}
 
-	if strings.Contains(message, TWORD) {
-		s.ChannelTyping(m.ChannelID)
+	for _, t := range TWORD {
+		if strings.Contains(message, t) {
+			s.ChannelTyping(m.ChannelID)
 
-		i := rand.Intn(len(fact.List))
-		msg := fmt.Sprintf("Fact #%d: %s", i+1, fact.List[i])
+			i := rand.Intn(len(fact.List))
+			msg := fmt.Sprintf("Fact #%d: %s", i+1, fact.List[i])
 
-		s.ChannelMessageSend(m.ChannelID, msg)
+			s.ChannelMessageSend(m.ChannelID, msg)
 
-		log.Printf("Dispenced fact #%d", i+1)
-		return
+			log.Printf("Dispenced fact #%d", i+1)
+			return
+		}
 	}
 }
